@@ -1,78 +1,80 @@
 function addTodoItem(todoItem) {
-	if ((todoItem['text'] === "") || (todoItem['text'] === undefined)) {
-		console.log("Text is empty");
+	if ((todoItem.text === "") || (todoItem.text === undefined)) {
+		console.log("Text is empty. New item is not added");
 		return false;
 	}
 	
 	if (todoItem.completed === undefined) {
-		console.log("Completed flag is missing");
+		console.log("Completed flag is missing. New item is not added");
 		return false;
 	}
 	
-	var isIdUnique = true;
-	var ids = [];
-	for(var i in todoItems) {
-		ids.push(todoItems[i].id);
+	let isIdUnique = true;
+
+	if (!todoItem.id) {
+		console.log("Id is missing. New item is not added");
+		return false;
 	}
-	
-	ids.forEach(function(item) {
-		if (todoItem.id === item) {
-			console.log("Id is not unique");
-			isIdUnique = false;
-		} else if (todoItem.id === undefined) {
-			console.log("Id is missing");
-			isIdUnique = false;
-		}
-	});
-	
+		
+	isIdUnique = todoItems.filter((item) => (todoItem.id === item.id)).length > 0 ? false : true;
+		
 	if (isIdUnique) { 
 		todoItems.push(todoItem);
 		console.log("New item added successfully");
+		console.log([...todoItems]);
 		return true;
-	} else return false;
+	} else {
+		console.log("Id is not unique. New item is not added");
+		return false;
+	}
 }
 
 
 
 
 function viewTodoList(itemsType) {
-    var filteredItems = [];
+    let filteredItems = [];
 
     if (itemsType == 'all') {
         filteredItems = todoItems;
     }
 
     if (itemsType === 'completed' || itemsType === 'not_completed') {
-        filteredItems = todoItems.filter(function (item) {
-			return itemsType === 'completed' ? item.completed === true : item.completed === false
-        })
+        filteredItems = todoItems.filter((item) => (
+			itemsType === 'completed' ? item.completed === true : item.completed === false
+        ))
     }
 
     return filteredItems
 }
 	
 	
-function editTodoItem(todoItemId, newText) {
-	var result = false;
-	if (newText !== "" && newText !== undefined && todoItemId !== undefined) {
-		todoItems = todoItems.map( function(item) {
-			if (item.id === todoItemId) {
+function changeToDoItem(todoItemId, property, value) {
+	let result = false;
+	if (property && value && todoItemId) {
+		todoItems.forEach((item, index) => {
+			if (todoItemId === item.id && item[property] != undefined) {
+				todoItems[index][property] = value;
 				result = true;
-				item.text = newText;
+				console.log(`Item [id=${todoItemId}] was changed`);
+				console.log([...todoItems]);
+				return;
 			}
-			return item;
 		});
-	}	
+	}
 	return result;
-
+}	
+	
+function editTodoItem(todoItemId, newText) {
+	return changeToDoItem(todoItemId, "text", newText);
 }
 
 
 function deleteTodoItem(todoItemId) {
-	var result = false;
-	if (todoItemId !== undefined) {
-		todoItems = todoItems.filter(function(item) {
-			var notDeletedItem = true;
+	let result = false;
+	if (todoItemId) {
+		todoItems = todoItems.filter((item) => {
+			let notDeletedItem = true;
 			if (item.id === todoItemId){
 				notDeletedItem = false;
 				result = true;
@@ -80,23 +82,16 @@ function deleteTodoItem(todoItemId) {
 			return notDeletedItem;
 		});
 	}
-
+	if (result) {
+		console.log(`Item [id=${todoItemId}] was deleted`);
+		console.log([...todoItems]);
+	}
 	return result;
 }
 
 
 function completeTodoItem(todoItemId) {
-	var result = false;
-	if (todoItemId !== undefined) {
-		todoItems = todoItems.map( function(item) {
-			if (item.id === todoItemId) {
-				result = true;
-				item.completed = true;
-			}
-			return item;
-		});
-	}	
-	return result;
+	return changeToDoItem(todoItemId, "completed", true);
 }
 	
 
