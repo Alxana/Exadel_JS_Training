@@ -22,6 +22,8 @@ function addTodoItem(todoItem) {
 		todoItems.push(todoItem);
 		console.log("New item added successfully");
 		console.log([...todoItems]);
+		//addTodoItemDom(todoItem);
+		viewTodoListDom();
 		return true;
 	} else {
 		console.log("Id is not unique. New item is not added");
@@ -32,7 +34,7 @@ function addTodoItem(todoItem) {
 
 
 
-function viewTodoList(itemsType) {
+function filterTodoList(itemsType) {
     let filteredItems = [];
 
     if (itemsType == 'all') {
@@ -46,6 +48,13 @@ function viewTodoList(itemsType) {
     }
 
     return filteredItems
+}
+
+function viewTodoList(itemsType) {
+	const filteredList = filterTodoList(itemsType);
+	viewTodoListDom(itemsType);
+	
+	return filteredList
 }
 	
 	
@@ -66,7 +75,13 @@ function changeToDoItem(todoItemId, property, value) {
 }	
 	
 function editTodoItem(todoItemId, newText) {
-	return changeToDoItem(todoItemId, "text", newText);
+	const isEdited = changeToDoItem(todoItemId, "text", newText);
+	if (isEdited) {
+		//editTodoItemDom(todoItemId, newText);
+		viewTodoListDom();
+	}
+	
+	return isEdited
 }
 
 
@@ -85,6 +100,9 @@ function deleteTodoItem(todoItemId) {
 	if (result) {
 		console.log(`Item [id=${todoItemId}] was deleted`);
 		console.log([...todoItems]);
+		
+		//deleteTodoItemDom(todoItemId);
+		viewTodoListDom();
 	}
 	return result;
 }

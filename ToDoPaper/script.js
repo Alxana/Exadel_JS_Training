@@ -37,7 +37,7 @@ var newItemDuplicateId = {
 	completed : true,
 	id : 1
 };
-
+/*
 console.log("/---------- Adding new items --------/");
 addTodoItem(newItem);
 addTodoItem(newItemEmptyText);
@@ -77,6 +77,6 @@ console.log("/---------- Complete items --------/");
 console.log("valid complete for id 4", completeTodoItem(4));
 console.log("valid complete for id 6", completeTodoItem(6));
 console.log("no such id", completeTodoItem(999));
-console.log("id is missing", completeTodoItem());
+console.log("id is missing", completeTodoItem());*/
 
 
