@@ -7,12 +7,19 @@
 </head>
 
 <body>
+	<div id="todo-items-add">
+		<input type="text" id="add-item-text"/>
+		<input type="submit" id="add-item-submit"/>
+	</div>
+	<div id="todo-items-filter">
+		<input type="checkbox" id="filter-completed" checked>Completed</input>
+		<input type="checkbox" id="filter-not-completed" checked>Not Completed</input>
+	</div>
 	<div id="todo-items"></div>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="ToDo_data.json"></script>
     <script src="functions.js"></script>
 	<script src="dom.js"></script>
 	<script src="script.js"></script>
-	<script src="test.js"></script>
 </body>
 </html>

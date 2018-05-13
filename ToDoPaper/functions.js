@@ -22,8 +22,7 @@ function addTodoItem(todoItem) {
 		todoItems.push(todoItem);
 		console.log("New item added successfully");
 		console.log([...todoItems]);
-		//addTodoItemDom(todoItem);
-		viewTodoListDom();
+		addTodoItemDom(todoItem);
 		return true;
 	} else {
 		console.log("Id is not unique. New item is not added");
@@ -33,9 +32,8 @@ function addTodoItem(todoItem) {
 
 
 
-
-function filterTodoList(itemsType) {
-    let filteredItems = [];
+function viewTodoList(itemsType) {
+	let filteredItems = [];
 
     if (itemsType == 'all') {
         filteredItems = todoItems;
@@ -46,15 +44,9 @@ function filterTodoList(itemsType) {
 			itemsType === 'completed' ? item.completed === true : item.completed === false
         ))
     }
-
-    return filteredItems
-}
-
-function viewTodoList(itemsType) {
-	const filteredList = filterTodoList(itemsType);
-	viewTodoListDom(itemsType);
+	viewTodoListDom(filteredItems);
 	
-	return filteredList
+	return filteredItems
 }
 	
 	
@@ -62,7 +54,7 @@ function changeToDoItem(todoItemId, property, value) {
 	let result = false;
 	if (property && value && todoItemId) {
 		todoItems.forEach((item, index) => {
-			if (todoItemId === item.id && item[property] != undefined) {
+			if (todoItemId == item.id && item[property] != undefined) {
 				todoItems[index][property] = value;
 				result = true;
 				console.log(`Item [id=${todoItemId}] was changed`);
@@ -77,8 +69,7 @@ function changeToDoItem(todoItemId, property, value) {
 function editTodoItem(todoItemId, newText) {
 	const isEdited = changeToDoItem(todoItemId, "text", newText);
 	if (isEdited) {
-		//editTodoItemDom(todoItemId, newText);
-		viewTodoListDom();
+		editTodoItemDom(todoItemId, newText);
 	}
 	
 	return isEdited
@@ -90,7 +81,7 @@ function deleteTodoItem(todoItemId) {
 	if (todoItemId) {
 		todoItems = todoItems.filter((item) => {
 			let notDeletedItem = true;
-			if (item.id === todoItemId){
+			if (item.id == todoItemId){
 				notDeletedItem = false;
 				result = true;
 			}
@@ -101,8 +92,7 @@ function deleteTodoItem(todoItemId) {
 		console.log(`Item [id=${todoItemId}] was deleted`);
 		console.log([...todoItems]);
 		
-		//deleteTodoItemDom(todoItemId);
-		viewTodoListDom();
+		deleteTodoItemDom(todoItemId);
 	}
 	return result;
 }
